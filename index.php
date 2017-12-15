@@ -4,14 +4,19 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 require 'vendor/autoload.php';
 
-$app = new \Slim\App;
+//กำหนดค่า Configuaration ต่างๆ ใช้ใน Web API
+require 'setting.php';
+$app = new \Slim\App(["settings" => $config]);
 
-$app->get('/hello', function(){
-    echo 'ว่าไง';
-});
+//สร้าง Container และกำหนด PDO ไว้ต่อกับฐานข้อมูล
+$container = $app->getContainer();
+require 'pdo.php';
 
-$app->get('/user/register',function() {echo '/user/register';});
-$app->get('/user/login',function() {echo '/user/login';});
+//Route ต่างๆ
+require 'routes/hello.php';
+require 'routes/user.php';
+require 'routes/room.php';
+
 $app->get('/user/post',function() {echo '/user/post';});
 $app->get('/user/search',function() {echo '/user/search';});
 $app->get('/user/listproduct',function() {echo '/user/listproduct';});
